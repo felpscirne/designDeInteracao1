@@ -76,7 +76,7 @@ addVenomButton.addEventListener('click', function () {
 // Adicionar área venenosa
 function addVenomArea(x, y) {
     let venom = document.createElement('img');
-    venom.src = './img/venom.png';
+    venom.src = '../img/venom.png';
     venom.classList.add('venom');
     venom.style.top = y + 'px';
     venom.style.left = x + 'px';
