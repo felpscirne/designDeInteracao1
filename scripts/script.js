@@ -36,6 +36,8 @@ function createAnts(num) {
         ant.style.left = Math.random() * terrain.offsetWidth + 'px';
         terrain.appendChild(ant);
         ants.push(ant);
+        ant.venom = false;
+
     }
 }
 
@@ -188,10 +190,17 @@ function moveAnts() {
                 y < parseFloat(venom.style.top) + 40 &&
                 y + 30 > parseFloat(venom.style.top)
             ) {
-                terrain.removeChild(ant);
-                ants = ants.filter(a => a !== ant); // Remove a formiga da lista
+                ant.venom = true;
+                // terrain.removeChild(ant);
+                // ants = ants.filter(a => a !== ant); // Remove a formiga da lista
             }
         });
+    });
+
+    ants.forEach(ant => {
+        if (ant.venom === true) {
+        ant.src = './img/ant-venom.png';
+        }
     });
 
     // Verifica se todas as formigas estão mortas
@@ -199,6 +208,14 @@ function moveAnts() {
         allAntsDead = true;
         clearInterval(timer); // Para o contador
         alert(`Parabéns ${usernameInput.value || "Jogador"}, suas formigas viveram ${survivalTime} segundos!`);
+        gameStarted = false; // Marca que o jogo terminou
+    }
+
+    // Verifica se todos os tamanduás estão mortos
+    if (tamanduas.length === 0 && !allAntsDead) {
+        allAntsDead = true;
+        clearInterval(timer); // Para o contador
+        alert(`Que pena, ${usernameInput.value || "Jogador"}, seus tamanduás morreram em ${survivalTime} segundos! Tente novamente!`);
         gameStarted = false; // Marca que o jogo terminou
     }
 }
@@ -227,8 +244,16 @@ function moveTamanduas() {
                 y < parseFloat(ant.style.top) + 30 &&
                 y + 30 > parseFloat(ant.style.top)
             ) {
-                terrain.removeChild(ant);
-                ants = ants.filter(a => a !== ant); // Remove a formiga da lista
+                if (ant.venom) {
+                    terrain.removeChild(tamandua);
+                    tamanduas = tamanduas.filter(t => t !== tamandua); // Remove o tamandua e a formiga da lista
+                    terrain.removeChild(ant);
+                    ants = ants.filter(a => a !== ant);
+                } else {
+                    terrain.removeChild(ant);
+                    ants = ants.filter(a => a !== ant); // Remove a formiga da lista
+            
+                }
             }
         });
     });
