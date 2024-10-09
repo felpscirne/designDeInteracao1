@@ -44,8 +44,3 @@ O projeto pode seguir a estrutura básica fornecida nos arquivos:
   - Simulação de análise de dados estatísticos.
   - Construção dinâmica de uma interface visual (como a fachada de uma casa).
 
-## Como rodar o projeto
-
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
