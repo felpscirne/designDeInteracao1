@@ -1,36 +1,51 @@
-# Design De Interação - Trabalho 1
+# Painel Interativo com Controles Gráficos
 
-Trabalho 1 de JavaScript
-1- Fazer um painel com elementos gráficos e um painel de controles que irão alterar estes elementos
-gráficos.
-Os controles devem ser formulários e/ou botões estilizados. Alterações nos valores e posições dos
-formulários e botões causam alterações no painel gráfico. O painel gráfico deve ser uma div com
-outros elementos dentro.
-Via formulário de controle pode-se mudar cor de fundo, borda, texto, figura, etc de uma div que
-será o cartão. Também é possível mudar tamanhos de elementos e movê-los.
-Através dos controles o gadget deve alterar no painel gráfico:
-- Pelo menos 5 aspectos gráficos
-- Pelo menos 1 deles deve ter alteração de tamanho
-- Pelo menos 1 deles deve ter alteração em elemento textual
-O formulário de controle e o painel gráfico ficam na mesma página e conforme o usuário vai
-alterando o formulário ele já vai vendo o resultado no painel.
-É uma página para o usuário final, todo visual da página conta.
-Evite possíveis erros do usuário (impedir inserção de dados errados, apagar/desabilitar campos já
-respondidos, limitar o número de opções,...)
-Caprichar no visual do gadget, colocar título, bordas, fundos, etc.
-O gadget deve ser responsivo e rodar no desktop e no celular:
-• deve passar pelo validador da w3c sem erros (https://validator.w3.org/). Em todas as fases
-do gadget.
-• não deve apresentar erros pegos pelo console do JavaScript(JS) dos navegadores.
-• Usar css, bootstrap ou outro framework css para dar um bom visual ao gadget.
-O gadget deve ser disponibilizado no github. O link para o repositório e o github pages do trabalho
-deve ser informado no SIGAA.
-Sugestão:
-- O arquivo 11painel.html mostra uma estrutura básica de um controle e painel. O uso do evento
-“input” no JS e do campo “range” no html da uma boa dinâmica ao painel/controle.
-- O arquivo 10classlist.html também mostra uma interação com botões que possibilitam mudanças
-grandes no painel com um código bem enxuto.
-- Os gráficos e interações não precisam ter muita utilidade (além do entretenimento gráfico),
-entretanto quem conseguir criar uma boa lógica/utilidade para a dupla painel/controle pode ter um
-ponto extra. (simular análise de dados estatísticos, montar dinamicamente a fachada de uma
-casa….)
+Este projeto consiste na criação de um painel interativo com elementos gráficos, controlado por um painel de controles estilizados. O objetivo é permitir que o usuário altere diversos aspectos visuais da interface de forma dinâmica.
+
+## Funcionalidades
+
+- O painel gráfico será representado por uma `div` contendo outros elementos visuais.
+- Um painel de controle composto por formulários e/ou botões permitirá alterações no painel gráfico.
+- As alterações de valores e posições nos controles afetam o conteúdo gráfico em tempo real, permitindo modificações como:
+  - Cor de fundo, borda, texto, figuras, etc.
+  - Tamanho de elementos e sua posição.
+  
+### Requisitos
+
+- **Mínimo de 5 aspectos gráficos alteráveis** no painel.
+- **Pelo menos uma alteração de tamanho** de elemento.
+- **Pelo menos uma alteração em um elemento textual**.
+- O formulário de controle e o painel gráfico devem estar na **mesma página**. 
+- As alterações feitas nos controles devem ser refletidas imediatamente no painel gráfico.
+- Deve-se prever e prevenir erros do usuário (como impedir entradas inválidas, limitar opções, desabilitar campos já preenchidos, etc.).
+- O design visual deve ser cuidadoso, com uso de títulos, bordas, fundos e cores apropriadas.
+
+### Responsividade e Validação
+
+- O gadget deve ser **responsivo**, funcionando adequadamente tanto em **desktop** quanto em **dispositivos móveis**.
+- O código HTML deve passar pelo validador da W3C (https://validator.w3.org/) sem erros.
+- O console JavaScript dos navegadores **não deve apresentar erros**.
+
+### Tecnologias
+
+- Utilização de **HTML, CSS, JavaScript**.
+- Uso de **CSS frameworks** como Bootstrap (ou outro) para garantir um bom visual.
+- Manipulação de eventos em tempo real utilizando o evento `input` do JavaScript e o campo `range` no HTML para dinâmica fluida.
+
+## Estrutura Base
+
+O projeto pode seguir a estrutura básica fornecida nos arquivos:
+- **`11painel.html`**: Exemplo de estrutura básica de controle e painel com eventos dinâmicos.
+- **`10classlist.html`**: Exemplo de interação com botões para alterações no painel com código otimizado.
+
+## Dicas para Ponto Extra
+
+- As interações gráficas não precisam ter uma utilidade prática, porém, **se conseguir criar uma lógica interessante ou uma utilidade real** para o painel e o controle, poderá ser concedido um ponto extra. Exemplos incluem:
+  - Simulação de análise de dados estatísticos.
+  - Construção dinâmica de uma interface visual (como a fachada de uma casa).
+
+## Como rodar o projeto
+
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
