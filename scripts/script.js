@@ -12,6 +12,9 @@ const survivalTimeDisplay = document.getElementById('survivalTime');
 const increaseTamanduasButton = document.getElementById('increaseTamanduas');
 const decreaseTamanduasButton = document.getElementById('decreaseTamanduas');
 const tamanduaSpeedControl = document.getElementById('tamanduaSpeedControl');
+const rulesButton = document.getElementById('rules');
+const pauseButton = document.getElementById('pauseCounter');
+const clearButton = document.getElementById('clearCounter');
 
 let ants = [];
 let venomAreas = [];
@@ -27,22 +30,54 @@ let gameStarted = false; // Estado para verificar se o jogo começou
 
 // Função para criar formigas
 function createAnts(num) {
+    if (gameStarted) {
+        alert("Não é possível adicionar formigas durante o jogo!");
+        return;
+    }
     for (let i = 0; i < num; i++) {
         let ant = document.createElement('img'); 
         ant.classList.add('ant');
         ant.src = './img/ant.png';
-        ant.style.position = 'absolute'; // Garantindo que a imagem seja posicionada corretamente
-        ant.style.top = Math.random() * terrain.offsetHeight + 'px';
-        ant.style.left = Math.random() * terrain.offsetWidth + 'px';
+        ant.style.position = 'absolute';
+
+        let validPosition = false;
+        let x, y;
+        
+        // Gera novas coordenadas até que estejam fora de qualquer área venenosa
+        while (!validPosition) {
+            x = Math.random() * terrain.offsetWidth;
+            y = Math.random() * terrain.offsetHeight;
+            
+            validPosition = true; // Assume que a posição é válida
+
+            // Verifica se a nova posição está dentro de uma área venenosa
+            venomAreas.forEach(venom => {
+                let venomX = parseFloat(venom.style.left);
+                let venomY = parseFloat(venom.style.top);
+                
+                if (x < venomX + 40 && x + 30 > venomX && y < venomY + 40 && y + 30 > venomY) {
+                    validPosition = false; // Se estiver sobre veneno, a posição não é válida
+                }
+            });
+        }
+
+        // Após verificar, atribui as coordenadas válidas
+        ant.style.left = x + 'px';
+        ant.style.top = y + 'px';
+
         terrain.appendChild(ant);
         ants.push(ant);
         ant.venom = false;
-
     }
 }
 
+
 // Função para criar tamanduás
 function createTamanduas(num) {
+    if (gameStarted){ 
+        alert("Não é possível adicionar tamanduás durante o jogo!");
+         return;
+    }
     for (let i = 0; i < num; i++) {
         let tamandua = document.createElement('img');
         tamandua.classList.add('tamandua');
@@ -55,13 +90,25 @@ function createTamanduas(num) {
     }
 }
 
+
+// Mostrar regras do jogo
+rulesButton.addEventListener('click', function () {
+    alert("Regras do jogo:\n\n1. Adicione formigas e tamanduás ao terreno.\n2. Escolha o tamanho e cor do terreno.\n3. Clique em 'Iniciar' para começar o jogo.\n3. Os tamanduas comem formigas mas não comem veneno.\n4. As formigas comem veneno.\n5. Formigas envenenadas matam o tamanduá que a comer.\n6. O jogo termina quando todos as formigas ou tamanduás morrem.\n7. Junte tamanduás e mate formigas sem perder os tamanduás.\n\nBoa sorte!");
+});
+
+
 // Atualiza a cor de fundo do terreno
 bgColorInput.addEventListener('input', function () {
     terrain.style.backgroundColor = bgColorInput.value;
 });
 
+
 // Remover todas as áreas venenosas
 removeVenomButton.addEventListener('click', function () {
+    if (gameStarted) {
+        alert("Não é possível remover veneno durante o jogo!");
+        return;
+    }
     venomAreas.forEach(venom => {
         terrain.removeChild(venom);
     });
@@ -77,6 +124,10 @@ addVenomButton.addEventListener('click', function () {
 
 // Adicionar área venenosa
 function addVenomArea(x, y) {
+    if (gameStarted) {
+        alert("Não é possível adicionar veneno durante o jogo!");
+        return;
+    }
     let venom = document.createElement('img');
     venom.classList.add('venom');
     venom.src = './img/venom.png';
@@ -117,6 +168,10 @@ increaseAntsButton.addEventListener('click', function () {
 
 // Diminuir formigas
 decreaseAntsButton.addEventListener('click', function () {
+    if (gameStarted) {
+        alert("Não é possível remover formigas durante o jogo!");
+        return;
+    }
     if (ants.length > 0) {
         terrain.removeChild(ants.pop());
     }
@@ -130,6 +185,10 @@ increaseTamanduasButton.addEventListener('click', function () {
 
 // Diminuir tamanduás
 decreaseTamanduasButton.addEventListener('click', function () {
+    if (gameStarted) {
+        alert("Não é possível remover tamanduás durante o jogo!");
+        return;
+    }
     if (tamanduas.length > 0) {
         terrain.removeChild(tamanduas.pop());
     }
@@ -168,6 +227,8 @@ startCounterButton.addEventListener('click', function () {
 
 // Função para mover formigas
 function moveAnts() {
+    if(!gameStarted) return;
+
     ants.forEach(ant => {
         let x = parseFloat(ant.style.left);
         let y = parseFloat(ant.style.top);
@@ -184,13 +245,17 @@ function moveAnts() {
 
         // Verifica se a formiga está na área venenosa
         venomAreas.forEach(venom => {
+            let venomX = parseFloat(venom.style.left);
+            let venomY = parseFloat(venom.style.top);
+
             if (
-                x < parseFloat(venom.style.left) + 40 &&
-                x + 30 > parseFloat(venom.style.left) &&
-                y < parseFloat(venom.style.top) + 40 &&
-                y + 30 > parseFloat(venom.style.top)
+                x < venomX + 40 &&
+                x + 30 > venomX &&
+                y < venomY + 40 &&
+                y + 30 > venomY
             ) {
                 ant.venom = true;
+            
                 // terrain.removeChild(ant);
                 // ants = ants.filter(a => a !== ant); // Remove a formiga da lista
             }
@@ -198,7 +263,7 @@ function moveAnts() {
     });
 
     ants.forEach(ant => {
-        if (ant.venom === true) {
+        if (ant.venom) {
         ant.src = './img/ant-venom.png';
         }
     });
@@ -222,6 +287,7 @@ function moveAnts() {
 
 // Função para mover tamanduas
 function moveTamanduas() {
+    if(!gameStarted) return;
     tamanduas.forEach(tamandua => {
         let x = parseFloat(tamandua.style.left);
         let y = parseFloat(tamandua.style.top);
@@ -271,3 +337,26 @@ tamanduaSpeedControl.addEventListener('input', function () {
 
 // Inicializa o terreno e cria as formigas
 createAnts(antCount);
+
+// Pausa o jogo
+pauseButton.addEventListener('click', function () {
+    clearInterval(timer);
+    gameStarted = false;
+    survivalTime = 0;
+    survivalTimeDisplay.textContent = survivalTime;
+});
+
+// Zera o jogo
+clearButton.addEventListener('click', function () {
+    clearInterval(timer);
+    gameStarted = false;
+    survivalTime = 0;
+    survivalTimeDisplay.textContent = survivalTime;
+    ants.forEach(ant => terrain.removeChild(ant));
+    ants = [];
+    tamanduas.forEach(tamandua => terrain.removeChild(tamandua));
+    tamanduas = [];
+    allAntsDead = false;
+    venomAreas.forEach(venom => terrain.removeChild(venom));
+    venomAreas = [];
+});
