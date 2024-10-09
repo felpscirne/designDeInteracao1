@@ -43,3 +43,17 @@ h1 {
     /* background-color: brown; */
     border-radius: 5px;
 }
+ .terrain {
+    position: relative;
+    
+} 
+
+/* Media Queries para ajustar o tamanho em telas pequenas */
+@media (max-width: 768px) {
+    .terrain {
+        width: 95vw;  /* Para dispositivos móveis, use 95% da largura */
+        height: 45vh; /* Ajusta a altura para caber melhor em dispositivos menores */
+        max-width: 95vw;  /* A largura máxima será 95% da viewport */
+        max-height: 45vh;  /* A altura máxima será 45% da viewport */
+    }
+}
